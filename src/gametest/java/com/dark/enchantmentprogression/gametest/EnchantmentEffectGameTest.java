@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.GameType;
 
 public final class EnchantmentEffectGameTest {
     private static Holder.Reference<Enchantment> enchantment(GameTestHelper helper, String path) {
@@ -30,7 +31,7 @@ public final class EnchantmentEffectGameTest {
     @GameTest
     public void sharpnessAboveVanillaMaxIncreasesRealDamage(GameTestHelper helper) {
         Holder.Reference<Enchantment> sharpness = enchantment(helper, "sharpness");
-        Player target = helper.makeMockPlayer();
+        Player target = helper.makeMockPlayer(GameType.SURVIVAL);
         var source = helper.getLevel().damageSources().generic();
 
         ItemStack sharpnessFive = enchanted(new ItemStack(Items.DIAMOND_SWORD), sharpness, 5);
@@ -59,7 +60,7 @@ public final class EnchantmentEffectGameTest {
     @GameTest
     public void protectionAboveVanillaMaxIncreasesRealProtection(GameTestHelper helper) {
         Holder.Reference<Enchantment> protection = enchantment(helper, "protection");
-        Player player = helper.makeMockPlayer();
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         var source = helper.getLevel().damageSources().generic();
 
         ItemStack protFour = enchanted(new ItemStack(Items.DIAMOND_CHESTPLATE), protection, 4);
