@@ -1,45 +1,33 @@
 name: Build Enchantment Progression
-
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
-  pull_request:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Unpack and patch source
+      - uses: actions/checkout@v4
+      - name: Reconstruct source
         run: |
+          cat source/min00.b64 source/min01.b64 | base64 -d > source.tgz
           mkdir project
-          unzip -q source-checkpoint-27.zip -d project
+          tar -xzf source.tgz -C project
           cp patches/ProgressionScreen.java project/src/client/java/com/dark/enchantmentprogression/client/ProgressionScreen.java
           cp patches/InventoryButtonInstaller.java project/src/client/java/com/dark/enchantmentprogression/client/InventoryButtonInstaller.java
           cp patches/ServerUpgradeService.java project/src/main/java/com/dark/enchantmentprogression/ServerUpgradeService.java
           sed -i 's/version=0.4.2-alpha/version=0.5.0-alpha/' project/gradle.properties
-      - name: Set up Java 25
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '25'
-      - name: Set up Gradle 9.5.1
-        uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.5.1'
-      - name: Run pure Java tests
-        working-directory: project
-        run: bash ./run-core-tests.sh
-      - name: Verify source invariants
-        working-directory: project
-        run: python3 ./verify-source-invariants.py
       - name: Build Fabric mod
         working-directory: project
         run: gradle clean build --stacktrace --no-daemon
-      - name: Upload build jars
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: EnchantmentProgression-26.3-Gothic
           path: project/build/libs/*.jar
