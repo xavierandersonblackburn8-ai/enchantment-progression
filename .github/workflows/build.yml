@@ -17,6 +17,7 @@ jobs:
           cp patches/InventoryButtonInstaller.java project/src/client/java/com/dark/enchantmentprogression/client/InventoryButtonInstaller.java
           cp patches/ServerUpgradeService.java project/src/main/java/com/dark/enchantmentprogression/ServerUpgradeService.java
           sed -i 's/version=0.4.2-alpha/version=0.5.0-alpha/' project/gradle.properties
+          sed -i 's/modImplementation /implementation /g' project/build.gradle
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
