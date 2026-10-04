@@ -13,10 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Unpack source checkpoint
+      - name: Reconstruct source checkpoint
         run: |
+          cat source.b64.part00 source.b64.part01 source.b64.part02 source.b64.part03 source.b64.part04 source.b64.part05 source.b64.part06 | base64 -d > source.zip
+          unzip -t source.zip
           mkdir project
-          unzip -q source-checkpoint-27.zip -d project
+          unzip -q source.zip -d project
           ls -la project
 
       - name: Set up Java 25
