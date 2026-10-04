@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "enchantment_progression",
+  "version": "${version}",
+  "name": "Enchantment Progression",
+  "description": "Spend XP levels to progress enchantments beyond vanilla caps.",
+  "authors": ["Dark"],
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.dark.enchantmentprogression.EnchantmentProgression"],
+    "client": ["com.dark.enchantmentprogression.client.EnchantmentProgressionClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "26.3",
+    "fabric-api": "0.160.7+26.3",
+    "java": ">=25"
+  }
+}

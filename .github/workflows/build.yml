@@ -16,15 +16,9 @@ jobs:
       - name: Reconstruct source checkpoint
         run: |
           cat source.b64.part00 source.b64.part01 source.b64.part02 source.b64.part03 source.b64.part04 source.b64.part05 source.b64.part06 | base64 -d > source.zip
-          python3 - <<'PY'
-          import zipfile, os
-          z = zipfile.ZipFile('source.zip')
-          print('zip entries:', len(z.infolist()))
-          bad = z.testzip()
-          print('first bad entry:', bad)
-          os.mkdir('project')
-          z.extractall('project')
-          PY
+          unzip -t source.zip
+          mkdir project
+          unzip -q source.zip -d project
           ls -la project
 
       - name: Set up Java 25
