@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "enchantment-progression-test",
+  "version": "1.0.0",
+  "name": "Enchantment Progression Game Tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": ["com.dark.enchantmentprogression.gametest.EnchantmentEffectGameTest"]
+  }
+}
