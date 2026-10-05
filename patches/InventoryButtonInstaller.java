@@ -10,11 +10,15 @@ public final class InventoryButtonInstaller {
     private InventoryButtonInstaller() {}
 
     public static void install(Screen parent, int width, int height) {
-        // Keep the progression control in the lower inventory-control area beside the
-        // vanilla recipe-book button instead of covering the Crafting heading/grid.
-        Button button = Button.builder(Component.literal("✦"), b ->
+        // Vanilla inventory is 176x166 logical pixels.  The recipe-book control sits at
+        // guiLeft+104, guiTop+61; progression belongs immediately to its right.
+        // These coordinates intentionally follow the inventory origin rather than the
+        // old top-right screen anchor, matching the placement approved from the screenshot.
+        int guiLeft = (width - 176) / 2;
+        int guiTop = (height - 166) / 2;
+        Button button = Button.builder(Component.literal("▣"), b ->
                 Minecraft.getInstance().gui.setScreen(new ProgressionScreen(parent)))
-                .bounds(width / 2 + 80, height / 2, 22, 20)
+                .bounds(guiLeft + 124, guiTop + 61, 20, 20)
                 .build();
         button.setTooltip(net.minecraft.client.gui.components.Tooltip.create(
                 Component.translatable("enchantment_progression.open")));
