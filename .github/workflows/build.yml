@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Reconstruct source
+      - name: Reconstruct source and UI assets
         run: |
           cat source/min00.b64 source/min01.b64 | base64 -d > source.tgz
           mkdir project
@@ -16,7 +16,8 @@ jobs:
           cp patches/ProgressionScreen.java project/src/client/java/com/dark/enchantmentprogression/client/ProgressionScreen.java
           cp patches/InventoryButtonInstaller.java project/src/client/java/com/dark/enchantmentprogression/client/InventoryButtonInstaller.java
           cp patches/ServerUpgradeService.java project/src/main/java/com/dark/enchantmentprogression/ServerUpgradeService.java
-          sed -i 's/version=0.4.2-alpha/version=0.5.0-alpha/' project/gradle.properties
+          python3 tools/generate_gothic_ui.py
+          sed -i 's/version=0.4.2-alpha/version=0.6.0-alpha/' project/gradle.properties
           sed -i 's/modImplementation /implementation /g' project/build.gradle
       - uses: actions/setup-java@v4
         with:
@@ -30,6 +31,6 @@ jobs:
         run: gradle clean build --stacktrace --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: EnchantmentProgression-26.3-Gothic
+          name: EnchantmentProgression-26.3-Gothic-0.6.0
           path: project/build/libs/*.jar
           if-no-files-found: error
