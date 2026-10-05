@@ -17,6 +17,7 @@ jobs:
           cp patches/InventoryButtonInstaller.java project/src/client/java/com/dark/enchantmentprogression/client/InventoryButtonInstaller.java
           cp patches/ServerUpgradeService.java project/src/main/java/com/dark/enchantmentprogression/ServerUpgradeService.java
           python3 tools/generate_gothic_ui.py
+          python3 tools/patch_ui_source.py
           sed -i 's/version=0.4.2-alpha/version=0.6.0-alpha/' project/gradle.properties
           sed -i 's/modImplementation /implementation /g' project/build.gradle
       - uses: actions/setup-java@v4
