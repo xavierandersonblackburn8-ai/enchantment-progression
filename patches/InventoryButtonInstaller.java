@@ -8,10 +8,16 @@ import net.minecraft.network.chat.Component;
 
 public final class InventoryButtonInstaller {
     private InventoryButtonInstaller() {}
+
     public static void install(Screen parent, int width, int height) {
-        Button button = Button.builder(Component.literal("✦"), b -> Minecraft.getInstance().gui.setScreen(new ProgressionScreen(parent)))
-                .bounds(width / 2 + 80, height / 2 - 82, 22, 20).build();
-        button.setTooltip(net.minecraft.client.gui.components.Tooltip.create(Component.translatable("enchantment_progression.open")));
+        // Keep the progression control in the lower inventory-control area beside the
+        // vanilla recipe-book button instead of covering the Crafting heading/grid.
+        Button button = Button.builder(Component.literal("✦"), b ->
+                Minecraft.getInstance().gui.setScreen(new ProgressionScreen(parent)))
+                .bounds(width / 2 + 80, height / 2, 22, 20)
+                .build();
+        button.setTooltip(net.minecraft.client.gui.components.Tooltip.create(
+                Component.translatable("enchantment_progression.open")));
         Screens.getWidgets(parent).add(button);
     }
 }
