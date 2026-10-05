@@ -14,12 +14,13 @@ import net.minecraft.resources.Identifier;
 /** Crimson enchanted-book control positioned from the vanilla recipe-book widget every frame. */
 public final class ProgressionInventoryButton extends AbstractWidget {
     private static final Identifier ICON=Identifier.fromNamespaceAndPath("enchantment_progression","textures/gui/progression_book.png");
+    private static final Identifier HOVER_ICON=Identifier.fromNamespaceAndPath("enchantment_progression","textures/gui/progression_book_highlighted.png");
     private final Screen parent;
     private final int fallbackRecipeX;
     private final int fallbackRecipeY;
 
     public ProgressionInventoryButton(Screen parent,int guiLeft,int guiTop){
-        super(guiLeft+124,guiTop+61,20,20,Component.translatable("enchantment_progression.open"));
+        super(guiLeft+124,guiTop+61,20,18,Component.translatable("enchantment_progression.open"));
         this.parent=parent;
         this.fallbackRecipeX=guiLeft+104;
         this.fallbackRecipeY=guiTop+61;
@@ -41,11 +42,9 @@ public final class ProgressionInventoryButton extends AbstractWidget {
 
     @Override protected void extractWidgetRenderState(GuiGraphicsExtractor g,int mouseX,int mouseY,float delta){
         followRecipeButton();
-        // Dark crimson hover plate + the dedicated red enchanted-book sprite.
+        // Vanilla recipe-book frame and silhouette, recolored crimson.
         int x=getX(),y=getY();
-        g.fill(x-1,y-1,x+21,y+21,isHovered()?0xFFB51E32:0xFF4B0B15);
-        g.outline(x-1,y-1,22,22,isHovered()?0xFFFF3951:0xFF8D1727);
-        g.blit(RenderPipelines.GUI_TEXTURED,ICON,x,y,0,0,20,20,20,20);
+        g.blit(RenderPipelines.GUI_TEXTURED,isHoveredOrFocused()?HOVER_ICON:ICON,x,y,0,0,20,18,20,18);
     }
 
     @Override public void onClick(MouseButtonEvent event,boolean doubleClick){
